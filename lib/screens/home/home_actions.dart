@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:github_smaple/modals/commit_modal.dart';
+import 'package:github_smaple/services/constants.dart';
 import 'dart:convert';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -11,11 +12,10 @@ ThunkAction getAllCommits() {
       store.dispatch(Action.StartLoading);
       var dio = new Dio();
 
-      Response response = await dio.get("https://api.github.com/repos/twitter/bootstrap/commits");
+      Response response = await dio.get(kBaseUrl);
       
       List result = response.data;
       if(response.statusCode == 200 && result.length > 0) {
-        print("result commitList: ${result}");  
         List commitList = result;
         List<CommitModal> finalResult = [];
         

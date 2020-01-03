@@ -6,55 +6,56 @@ import 'package:github_smaple/screens/home/commit_item.dart';
 import 'package:github_smaple/screens/home/home_actions.dart';
 import 'package:github_smaple/screens/home/home_state.dart';
 
-
-class Home extends StatefulWidget {
-  Home({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _HomeState createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  
+class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Commits"),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: StoreConnector<AppState, Function>(
+              converter: (store) => () {
+                store.dispatch(getAllCommits());
+              },
+              builder: (_, refetchCommits) {
+                return InkWell(
+                  onTap: (){
+                    refetchCommits();
+                  },
+                  child: Icon(Icons.refresh)
+                );
+              }),
+          )
+        ],
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           StoreConnector<AppState, HomeState>(
-              rebuildOnChange: true,
-              onInit: (store) => store.dispatch(getAllCommits()),
-              converter: (store) => store.state.homeState,
-              builder: (_, viewModel) {
-                List<CommitModal> items = viewModel.allCommits;
+            onInit: (store) => store.dispatch(getAllCommits()),
+            converter: (store) => store.state.homeState,
+            builder: (_, viewModel) {
+              List<CommitModal> items = viewModel.allCommits;
+              if (viewModel.isLoading == true) {
+                return Container(
+                  height: 150,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              } else {
                 return Flexible(
                   child: ListView.builder(
                     itemCount: items.length + 2,
                     itemBuilder: (BuildContext context, int index) {
-                      if( items.length <= 0 && viewModel.isLoading == true) {
-                        return Container(height: 150, child: Center(child: CircularProgressIndicator(),));
-                      } else if(items.length <= 0 && viewModel.fetchError){
+                      if (items.length <= 0 && viewModel.fetchError) {
                         return _renderError();
-                      } else if( index > 0 && index <= items.length) {
+                      } else if (index > 0 && index <= items.length) {
                         CommitModal item = items[index - 1];
                         return CommitItem(
                           commit: item,
-                          
                         );
                       } else {
                         return SizedBox();
@@ -62,14 +63,15 @@ class _HomeState extends State<Home> {
                     },
                   ),
                 );
-              },
-            ),
+              }
+            },
+          ),
         ],
       ),
     );
   }
 
-  Widget _renderError(){
+  Widget _renderError() {
     return Container(
       height: 350,
       child: Center(
@@ -81,16 +83,15 @@ class _HomeState extends State<Home> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 18,
-                
               ),
             ),
             StoreConnector<AppState, Function>(
-              converter: (store) => (){
+              converter: (store) => () {
                 store.dispatch(getAllCommits());
               },
-              builder: (_, callback){
+              builder: (_, callback) {
                 return FlatButton(
-                  onPressed: (){
+                  onPressed: () {
                     callback();
                   },
                   child: Text(
@@ -98,7 +99,6 @@ class _HomeState extends State<Home> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
-                      
                     ),
                   ),
                 );

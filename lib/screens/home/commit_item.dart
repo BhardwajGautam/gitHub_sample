@@ -7,22 +7,29 @@ class CommitItem extends StatelessWidget {
   CommitItem({this.commit});
   final CommitModal commit;
 
-  Widget _renderImage(context) {
+  Widget _renderCommitter(context) {
     return GestureDetector(
       onTap: () {
         
       },
-      child: Container(
-        height: 216,
-        alignment: Alignment.center,
-        margin: EdgeInsets.symmetric(horizontal: 17, vertical: 11),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          image: DecorationImage(
-            image: CachedNetworkImageProvider(commit.id.toString(),),
-            fit: BoxFit.cover,
+      child: Row(
+        children: [
+          Image(
+            image: CachedNetworkImageProvider(commit.committer.avatar_url,),
+            height: 30,
+            width: 30,
           ),
-        ),
+          Padding(
+            padding: EdgeInsets.only(left: 8),
+            child: Text(
+              commit.committer.login,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -30,17 +37,15 @@ class CommitItem extends StatelessWidget {
   Widget _renderTitle(context) {
     return GestureDetector(
       onTap: () {
-        
+        // .sha.substring(0,7)
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 21),
-        child: Text(
-          commit.id ?? "hey",
-          style: TextStyle(
-            fontSize: 18,
-          ),
-          textAlign: TextAlign.left,
+      child: Text(
+        commit.commit.message,
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w800,
         ),
+        textAlign: TextAlign.left,
       ),
     );
   }
@@ -49,12 +54,27 @@ class CommitItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        // _renderImage(context),
-        _renderTitle(context),
-      ],
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      height: 90,
+      decoration: BoxDecoration(
+      border: Border(
+        bottom: BorderSide(
+          color: Color.fromRGBO(0, 0, 0, 0.25),
+          width: 0.5,
+        ),
+      ),
+    ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _renderTitle(context),
+          Padding(
+            padding: EdgeInsets.only(top: 8),
+            child: _renderCommitter(context),
+          ),
+        ],
+      ),
     );
   }
 }
