@@ -55,7 +55,7 @@ class Home extends StatelessWidget {
                       } else if (index > 0 && index <= items.length) {
                         CommitModal item = items[index - 1];
                         return CommitItem(
-                          commit: item,
+                          commitDetail: item,
                         );
                       } else {
                         return SizedBox();
