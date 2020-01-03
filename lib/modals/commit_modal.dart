@@ -10,7 +10,6 @@ class CommitModal {
   Committer committer;
   Commit commit;
 
-
   CommitModal({
     this.sha,
     this.node_id,
@@ -36,7 +35,6 @@ class CommitModal {
         commit: commit
     );
   }
-
 }
 
 class Commit {
@@ -48,7 +46,6 @@ class Commit {
   String url;
   String comments_url;
   Author author;
-
 
   Commit({
     this.message,
@@ -81,7 +78,6 @@ class Author {
   String email;
   String date;
 
-
   Author({
     this.name,
     this.email,
@@ -96,5 +92,4 @@ class Author {
         date: json['date']
     );
   }
-
 }

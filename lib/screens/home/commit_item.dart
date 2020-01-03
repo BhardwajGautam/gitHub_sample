@@ -66,14 +66,13 @@ class CommitItem extends StatelessWidget {
           ),
         ),
         Text(
-          commitDetail.sha.substring(0,7),
+          commitDetail.sha.substring(0, 7),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w800,
-            color: Colors.blueAccent
-          ),
+              fontSize: 16,
+              fontWeight: FontWeight.w800,
+              color: Colors.blueAccent),
           textAlign: TextAlign.left,
         ),
       ],

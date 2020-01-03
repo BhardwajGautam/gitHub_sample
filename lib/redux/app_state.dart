@@ -3,14 +3,13 @@ import 'package:meta/meta.dart';
 
 @immutable
 class AppState {
-
   final HomeState homeState;
 
   AppState({
     @required this.homeState,
   });
 
-  factory AppState.initial(){
+  factory AppState.initial() {
     return AppState(
       homeState: HomeState.initial(),
     );
@@ -18,7 +17,7 @@ class AppState {
 
   AppState copyWith({
     HomeState homeState,
-  }){
+  }) {
     return AppState(
       homeState: homeState ?? this.homeState,
     );
@@ -27,12 +26,10 @@ class AppState {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is AppState &&
-              runtimeType == other.runtimeType &&
-              homeState == other.homeState;
+      other is AppState &&
+          runtimeType == other.runtimeType &&
+          homeState == other.homeState;
 
   @override
-  int get hashCode =>
-      homeState.hashCode;
-
+  int get hashCode => homeState.hashCode;
 }

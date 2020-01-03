@@ -21,12 +21,12 @@ class Home extends StatelessWidget {
               },
               builder: (_, refetchCommits) {
                 return InkWell(
-                  onTap: (){
-                    refetchCommits();
-                  },
-                  child: Icon(Icons.refresh)
-                );
-              }),
+                    onTap: () {
+                      refetchCommits();
+                    },
+                    child: Icon(Icons.refresh));
+              },
+            ),
           )
         ],
       ),

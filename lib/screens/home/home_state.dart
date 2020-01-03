@@ -2,8 +2,7 @@ import 'package:github_smaple/modals/commit_modal.dart';
 import 'package:meta/meta.dart';
 
 @immutable
-class HomeState{
-
+class HomeState {
   final bool isLoading;
   final bool isLoadMore;
   final bool fetchError;
@@ -16,14 +15,9 @@ class HomeState{
     @required this.isLoadMore,
   });
 
-  factory HomeState.initial(){
+  factory HomeState.initial() {
     return new HomeState(
-      allCommits: [],
-      isLoading: false,
-      fetchError: false,
-      isLoadMore: false
-    );
-
+        allCommits: [], isLoading: false, fetchError: false, isLoadMore: false);
   }
 
   HomeState copyWith({
@@ -31,25 +25,23 @@ class HomeState{
     bool fetchError,
     bool isLoadMore,
     List<CommitModal> allNews,
-  }){
+  }) {
     return new HomeState(
         allCommits: allNews ?? this.allCommits,
         isLoading: isLoading ?? false,
         fetchError: fetchError ?? false,
-        isLoadMore: isLoadMore ?? false
-    );
+        isLoadMore: isLoadMore ?? false);
   }
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is HomeState &&
-              runtimeType == other.runtimeType &&
-              
-              allCommits == other.allCommits &&
-              isLoading == other.isLoading &&
-              fetchError == other.fetchError &&
-              isLoadMore == other.isLoadMore;
+      other is HomeState &&
+          runtimeType == other.runtimeType &&
+          allCommits == other.allCommits &&
+          isLoading == other.isLoading &&
+          fetchError == other.fetchError &&
+          isLoadMore == other.isLoadMore;
 
   @override
   int get hashCode =>
